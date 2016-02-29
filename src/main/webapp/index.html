@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<script src="https://apis.google.com/js/client.js?onload=init"></script> 
+</head>
+<body>
+	<script>
+function init() {
+	
+	var rootpath = "//" + window.location.host + "/learningapi";
+	
+	// Load the helloworldendpoints API
+	// If loading completes successfully, call loadCallback function
+	//gapi.client.load('arabicjwlearning', 'v1', loadCallback, rootpath);
+}
+
+/*
+ * When helloworldendpoints API has loaded, this callback is called.
+ * 
+ * We need to wait until the helloworldendpoints API has loaded to
+ * enable the actions for the buttons in index.html,
+ * because the buttons call functions in the helloworldendpoints API
+ */
+function loadCallback () {	
+	// Enable the button actions
+	enableButtons ();
+}
+
+function enableButtons () {
+	// Set the onclick action for the first button
+	btn = document.getElementById("contactService");
+	btn.onclick= function(){sendToService();};
+	
+	// Update the button label now that the button is active
+	btn.value="Click to send to service";
+}
+
+/*
+ * Execute a request to the sayHelloByName() endpoints function.
+ * Illustrates calling an endpoints function that takes an argument.
+ */
+function sendToService () {
+	// Get the name from the name_field element
+	var name = document.getElementById("name_field").value;
+	
+	// Call the function.
+	// It takes one argument "name"
+	// On success, pass the response to sayHelloCallback()
+	//var request = gapi.client.arabicjwlearning.authenticateUser({'name': name});
+	var request = gapi.client.arabicjwlearning.authenticateUser();
+	request.execute(authCallback);
+}
+
+// Process the JSON response
+// In this case, just show an alert dialog box
+// displaying the value of the message field in the response
+function authCallback (response) {
+	alert(response.name);	
+}
+
+  	</script>
+<H1>Test service</H1>
+
+<P>User<input value ="" id="name_field"></P>
+
+<P><input id="contactService" type="button" value="please wait" 
+  onclick="will_be_set_after_endpoints_apis_loaded"></P>
+    
+</body>
+</html>
